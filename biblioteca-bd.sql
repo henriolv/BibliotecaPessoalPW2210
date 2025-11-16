@@ -1,4 +1,3 @@
-
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -23,6 +22,18 @@ CREATE TABLE livro (
     data_adicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     id_usuario INT NOT NULL,
     id_categoria INT,
+    capa VARCHAR(255),
     FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_categoria) REFERENCES categoria (id_categoria) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS filme (
+  id_filme SERIAL PRIMARY KEY,
+  titulo VARCHAR(150) NOT NULL,
+  diretor VARCHAR(100) NOT NULL,
+  ano INT,
+  data_adicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id_usuario INT NOT NULL REFERENCES usuario (id_usuario),
+  capa VARCHAR(255)
+);
+
