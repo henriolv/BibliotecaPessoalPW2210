@@ -1,90 +1,159 @@
 <!DOCTYPE html>
-<html lang="pt-br" data-bs-theme="dark">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro e Login</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Entrar — Biblioteca Escolar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <style>
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: var(--bs-body-bg);
+    :root{
+      --lib-green: #2e5f4f;
+      --lib-green-dark: #254a41;
+      --muted: #9aa4af;
+      --panel: #fbfcfb;
     }
-    .form-container {
-      width: 100%;
-      max-width: 400px;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(180deg,#f4f6f5 0%,#eef3f2 100%);
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color:#1f2d2b;
+      padding:2rem;
+    }
+    .form-panel{
+      width:100%;
+      max-width:520px;
+      background:var(--panel);
+      border:1px solid #e1e8e5;
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(17,24,23,0.08);
+      overflow:hidden;
+    }
+    .brand{
+      background: linear-gradient(90deg,var(--lib-green),var(--lib-green-dark));
+      color:#fff;
+      padding:1.25rem 1.5rem;
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+    }
+    .brand h2{ margin:0; font-size:1.125rem; font-weight:700; }
+    .brand small{ opacity:.95; font-weight:600; }
+    .panel-body{ padding:1.25rem 1.5rem; }
+    .tab-pane h4{ margin-bottom:1rem; }
+    .form-label{ font-weight:600; color:#24312f; }
+    .btn-primary{
+      background:var(--lib-green);
+      border-color:var(--lib-green-dark);
+    }
+    .btn-success{
+      background:var(--lib-green-dark);
+      border-color:var(--lib-green-dark);
+    }
+    .form-help{
+      font-size:.875rem;
+      color:var(--muted);
+    }
+    .footer-note{
+      text-align:center;
+      padding: .75rem 1rem;
+      font-size:.8rem;
+      color:#5c6a67;
+      border-top:1px solid #eef3f2;
+      background:#fbfdfc;
+    }
+    @media (max-width:480px){
+      .brand h2{ font-size:1rem; }
     }
   </style>
 </head>
 <body>
-  <div class="form-container bg-body">
-    <ul class="nav nav-tabs mb-3" id="tabForm" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Login</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Cadastro</button>
-      </li>
-    </ul>
-    <div class="tab-content">
-      <!-- Login -->
-      <div class="tab-pane fade show active" id="login" role="tabpanel">
-        <h4 class="mb-3">Login</h4>
-        <form>
-          <div class="mb-3">
-            <label for="loginEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="loginEmail" required>
-          </div>
-          <div class="mb-3">
-            <label for="loginPassword" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="loginPassword" required>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Entrar</button>
-        </form>
-      </div>
-      <!-- Cadastro -->
-      <div class="tab-pane fade" id="register" role="tabpanel">
-        <h4 class="mb-3">Cadastro</h4>
-       <form method="post" action="/usuario/register">
-          <div class="mb-3">
-            <label for="registerName" class="form-label">Nome</label>
-            <input name="nome" type="text" class="form-control" id="registerName" required>
-          </div>
-          <div class="mb-3">
-            <label for="registerEmail" class="form-label">Email</label>
-            <input name="email" type="email" class="form-control" id="registerEmail" required>
-          </div>
-          <div class="mb-3">
-            <label for="registerPassword" class="form-label">Senha</label>
-            <input name="senha" type="password" class="form-control" id="registerPassword" required>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Cadastrar</button>
-        </form>
+  <div class="form-panel">
+    <div class="brand">
+      <span style="font-size:1.6rem;">🏛️</span>
+      <div>
+        <h2>Biblioteca Escolar</h2>
+        <small>Acesso ao catálogo e reservas</small>
       </div>
     </div>
+
+    <div class="panel-body">
+      <ul class="nav nav-tabs mb-3" id="tabForm" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Entrar</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Cadastrar</button>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- Login -->
+        <div class="tab-pane fade show active" id="login" role="tabpanel">
+          <h4>Login</h4>
+          <form method="post" action="/usuario/login">
+            <div class="mb-3">
+              <label for="loginEmail" class="form-label">Email</label>
+              <input name="email" type="email" class="form-control" id="loginEmail" placeholder="seu@exemplo.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label">Senha</label>
+              <input name="senha" type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                <label class="form-check-label form-help" for="remember">Lembrar-me</label>
+              </div>
+              <a href="/usuario/recuperar" class="form-help">Esqueceu a senha?</a>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Entrar</button>
+          </form>
+
+          <!-- Voltar -->
+          <a href="/" class="btn btn-outline-secondary w-100 mt-2">Voltar ao início</a>
+        </div>
+
+        <!-- Cadastro -->
+        <div class="tab-pane fade" id="register" role="tabpanel">
+          <h4>Cadastro</h4>
+          <form method="post" action="/usuario/register">
+            <div class="mb-3">
+              <label for="registerName" class="form-label">Nome completo</label>
+              <input name="nome" type="text" class="form-control" id="registerName" placeholder="Seu nome" required>
+            </div>
+            <div class="mb-3">
+              <label for="registerEmail" class="form-label">Email</label>
+              <input name="email" type="email" class="form-control" id="registerEmail" placeholder="seu@exemplo.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="registerPassword" class="form-label">Senha</label>
+              <input name="senha" type="password" class="form-control" id="registerPassword" placeholder="Mínimo 6 caracteres" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Ao se cadastrar você terá acesso a reservas, histórico e comentários. • Biblioteca Escolar
+    </div>
   </div>
- 
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<% if (message) { %>
-  <script>
-    Swal.fire({
-      icon: '<%= message.type %>',
-      text: '<%= message.value %>'
-    });
-  </script>
-<% } %>
-
+  <% if (message) { %>
+    <script>
+      Swal.fire({
+        icon: '<%= message.type %>',
+        text: '<%= message.value %>',
+        confirmButtonColor: '#2e5f4f'
+      });
+    </script>
+  <% } %>
 </body>
 </html>

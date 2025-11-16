@@ -64,3 +64,32 @@ export async function registro(req: Request, res: Response) {
         }
     });
 }
+
+// login handler
+export async function login(req: Request, res: Response) {
+  const { email, senha } = req.body;
+  if (!email || !senha) {
+    return res.render('login', {
+      message: {
+        type: 'error',
+        value: 'Preencha email e senha!',
+        title: 'Dados inválidos'
+      }
+    });
+  }
+
+  const usuario = await getByEmail(email);
+
+  if (!usuario || usuario.senha !== senha) {
+    return res.render('login', {
+      message: {
+        type: 'error',
+        value: 'Email ou senha inválidos',
+        title: 'Falha na autenticação'
+      }
+    });
+  }
+
+  // Autenticação
+  return res.redirect('/');
+}

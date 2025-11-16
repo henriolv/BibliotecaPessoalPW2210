@@ -3,183 +3,211 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Catálogo Geek — Home</title>
+  <title>Biblioteca — Catálogo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
   <style>
-    body {
-      background: #0b0d10;
-      color: #e8eaed;
+    :root{
+      --accent:#25655a;
+      --accent-dark:#1f4a44;
+      --muted:#8f9a98;
+      --card:#ffffff;
+      --bg:#f6f8f7;
     }
 
-    .navbar,
-    .offcanvas {
-      background: #14181f;
+    body{
+      background:var(--bg);
+      color:#142522;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
+    /* Navbar */
+    .navbar { background: linear-gradient(90deg,var(--accent),var(--accent-dark)); }
+    .navbar .navbar-brand{ font-weight:700; letter-spacing:.2px; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(180deg, #ffffff 0%, #f1f6f5 100%);
+      border-bottom: 1px solid #e6efec;
+      padding: 3.5rem 0;
+    }
+    .search-box {
+      max-width: 920px;
+      margin: 0 auto;
+      background: var(--card);
+      border:1px solid #e7f0ee;
+      border-radius: 12px;
+      padding: .9rem;
+      box-shadow: 0 6px 22px rgba(16,22,21,0.05);
+    }
+    .search-input {
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+    .chip { border-radius: 999px; }
+
+    /* Grid / cards */
     .card {
-      background: #171a21;
-      border: 1px solid #232833;
-      height: 100%;
+      border: 1px solid #e6efec;
+      border-radius: 10px;
+      transition: transform .16s ease, box-shadow .16s ease;
+      background: var(--card);
     }
-
-    .badge-type {
-      letter-spacing: .3px;
-    }
-
+    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 28px rgba(15,22,21,0.08); }
     .cover {
-      width: 100%;
-      aspect-ratio: 3/4;
+      width:100%;
+      height: 240px;
       object-fit: cover;
-      background: #0b0d10;
+      border-top-left-radius:10px;
+      border-top-right-radius:10px;
+      background:#e9efee;
     }
+    .badge-type { font-size:.72rem; padding:.4rem .5rem; border-radius:6px; }
 
-    .search-hero {
-      background: linear-gradient(180deg, #10141b 0%, #0b0d10 100%);
-      border-bottom: 1px solid #232833;
-    }
+    /* Footer */
+    footer { background:#eef6f4; border-top:1px solid #e1ede9; padding:1.5rem 0; color:var(--muted); }
 
-    .form-control,
-    .form-select,
-    .form-button {
-      background: #0f131a;
-      color: #e8eaed;
-      border-color: #232833;
-    }
-
-    .form-button {
-      background: #0758d2;
-    }
-
-    .form-control::placeholder {
-      color: #9aa4af;
-    }
-
-    .page-link {
-      background: #0f131a;
-      color: #e8eaed;
-      border-color: #232833;
-    }
-
-    .page-item.active .page-link {
-      background: #375a7f;
-      border-color: #375a7f;
-    }
-
-    a,
-    a:hover {
-      color: #9ad0ff;
+    @media (max-width:768px){
+      .cover{ height:200px; }
+      .hero{ padding:2rem 0; }
     }
   </style>
 </head>
 
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">📚🎬 Catálogo Geek</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="offcanvas offcanvas-end text-bg-dark" id="menu">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title">Menu</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link active" href="#">Início</a></li>
-            <li class="nav-item"><a class="nav-link" href="/usuario/login">Entrar</a></li>
-            <li class="nav-item"><a class="nav-link" href="/usuario/login">Cadastrar</a></li>
-          </ul>
-        </div>
+      <a class="navbar-brand" href="/">🏛️ Biblioteca</a>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="/usuario/login">Entrar</a>
+        <a class="btn btn-light btn-sm" href="/livros">Meus Livros</a>
+        <a class="btn btn-light btn-sm" href="/filmes">Filmes</a>
+        <a class="btn btn-light btn-sm" href="/series">Séries</a> <!-- ADICIONADO -->
       </div>
     </div>
   </nav>
 
-  <!-- Hero / Busca -->
-  <section class="py-5 search-hero">
+  <section class="hero">
     <div class="container">
-      <div class="row g-3 align-items-end">
-        <div class="col-12 col-lg-6">
-          <h1 class="fw-bold mb-2">Descubra livros, filmes, animes e séries</h1>
-          <p class="text-secondary mb-0">Busca pública. Para comentar, faça login.</p>
+      <div class="text-center mb-4">
+        <h1 class="fw-bold">Encontre títulos no acervo</h1>
+        <p class="text-secondary mb-0">Busque por título, autor, ISBN ou explore por tipo.</p>
+      </div>
+
+      <div class="search-box d-flex align-items-center gap-2">
+        <div class="input-group">
+          <input id="q" class="form-control search-input" type="search" placeholder="Procure por título, autor ou ISBN" aria-label="Buscar" value="<%= typeof q !== 'undefined' ? q : '' %>">
         </div>
-        <div class="col-12 col-lg-6">
-          <div class="row g-2">
-            <div class="col-12 col-md-6">
-              <input id="q" type="search" class="form-control form-control-lg"
-                placeholder="Buscar por título ou sinopse…">
-            </div>
-            <div class="col-4 col-md-3">
-              <select id="typeFilter" class="form-select">
-                <option value="">Todos</option>
-                <option value="BOOK">Livros</option>
-                <option value="MOVIE">Filmes</option>
-                <option value="ANIME">Animes</option>
-                <option value="SERIES">Séries</option>
-              </select>
-            </div>
-            <div class="col-3 col-md-3">
-              <button type="button" class="btn form-button">Buscar</button>
-            </div>
-            <div class="col-12">
-              <div class="d-flex flex-wrap gap-2">
-                <button data-type="" class="btn btn-sm btn-outline-light px-3 type-chip active">Todos</button>
-                <button data-type="BOOK" class="btn btn-sm btn-outline-light px-3 type-chip">Livro</button>
-                <button data-type="MOVIE" class="btn btn-sm btn-outline-light px-3 type-chip">Filme</button>
-                <button data-type="ANIME" class="btn btn-sm btn-outline-light px-3 type-chip">Anime</button>
-                <button data-type="SERIES" class="btn btn-sm btn-outline-light px-3 type-chip">Série</button>
-                <span id="resultCount" class="ms-auto text-secondary small"></span>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <select id="typeFilter" class="form-select w-auto me-2">
+          <option value="" <%= !type ? 'selected' : '' %>>Todos</option>
+          <option value="BOOK" <%= type === 'BOOK' ? 'selected' : '' %>>Livros</option>
+          <option value="MOVIE" <%= type === 'MOVIE' ? 'selected' : '' %>>Filmes</option>
+          <option value="SERIES" <%= type === 'SERIES' ? 'selected' : '' %>>Séries</option>
+        </select>
+
+        <button id="searchBtn" class="btn btn-success" type="button" style="background:var(--accent);border-color:var(--accent-dark);">Buscar</button>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 mt-3">
+        <button class="btn btn-sm btn-outline-secondary chip type-chip <%= !type ? 'active' : '' %>" data-type="">Todos</button>
+        <button id="linkLivros" class="btn btn-sm btn-outline-secondary chip type-chip <%= type === 'BOOK' ? 'active' : '' %>" data-type="BOOK">Livros</button>
+        <button id="linkFilmes" class="btn btn-sm btn-outline-secondary chip type-chip <%= type === 'MOVIE' ? 'active' : '' %>" data-type="MOVIE">Filmes</button>
+        <button id="linkSeries" class="btn btn-sm btn-outline-secondary chip type-chip <%= type === 'SERIES' ? 'active' : '' %>" data-type="SERIES">Séries</button>
       </div>
     </div>
   </section>
 
-  <!-- Grid -->
-  <main class="py-4">
+  <main class="py-5">
     <div class="container">
-      <div id="grid" class="row g-3">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <div class="card h-100 shadow-sm">
-            <img class="cover" src="https://placehold.co/600x400" alt="Capa de Teste">
-            <div class="card-body d-flex flex-column">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h5 class="card-title me-2">Teste</h5>
-                <span class="badge badge-type ${b.cls}">Teste</span>
-              </div>
-              <p class="card-text text-secondary small mb-3">Resumo</p>
-              <div class="mt-auto d-flex justify-content-between align-items-center">
-                <small class="text-secondary">Data Lançamento</small>
-                <a class="stretched-link" href="/item/id">Detalhes</a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="d-flex align-items-center mb-4">
+        <h2 class="mb-0">Destaques</h2>
+        <small class="text-muted ms-3">Itens selecionados pela equipe</small>
+        <div class="ms-auto text-muted small" id="resultCount"><%= Array.isArray(items) ? items.length : 0 %> resultados</div>
       </div>
 
-      <!-- Paginação -->
+      <div id="grid" class="row g-4">
+        <% if (items && items.length) { %>
+          <% items.forEach(function(it){ %>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="card h-100">
+                <img class="cover" src="<%= it.capa ? it.capa : 'https://placehold.co/600x800?text=' + encodeURIComponent(it.titulo) %>" alt="Capa">
+                <div class="card-body d-flex flex-column">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0" style="font-size:1rem"><%= it.titulo %></h5>
+                    <% if (it.type === 'BOOK') { %>
+                      <span class="badge bg-success badge-type">Livro</span>
+                    <% } else if (it.type === 'MOVIE') { %>
+                      <span class="badge bg-info badge-type">Filme</span>
+                    <% } else { %>
+                      <span class="badge bg-warning text-dark badge-type">Série</span>
+                    <% } %>
+                  </div>
+                  <p class="text-secondary small mb-3"><%= it.subtitle || '' %> <% if (it.ano) { %>• <%= it.ano %><% } %></p>
+                  <div class="mt-auto d-flex justify-content-between align-items-center">
+                    <small class="text-muted"><%= it.disponivel ? 'Disponível' : 'Indisponível' %></small>
+                    <a href="/item/<%= it.type %>/<%= it.id %>" class="stretched-link">Detalhes</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="col-12">
+            <div class="alert alert-secondary">Nenhum resultado encontrado.</div>
+          </div>
+        <% } %>
+      </div>
+
       <nav class="mt-4">
         <ul id="pagination" class="pagination justify-content-center"></ul>
       </nav>
     </div>
   </main>
 
-  <footer class="py-4 border-top border-secondary" style="border-color:#232833!important;">
-    <div class="container text-center text-secondary small">
-      © <span id="year"></span> Catálogo Geek.
+  <footer>
+    <div class="container text-center">
+      <div>Biblioteca Municipal — Av. Conselheiro Antônio Prado, S/n • Centro</div>
+      <div class="mt-1">Horário: Seg–Sex 9:00–18:00 • Sáb 9:00–13:00</div>
+      <div class="mt-2 small">© <span id="year"></span> Biblioteca Municipal</div>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const q = document.getElementById('q');
+    const searchBtn = document.getElementById('searchBtn');
+
+    function doSearch(paramsObj){
+      const params = new URLSearchParams(paramsObj);
+      location.href = '/?' + params.toString();
+    }
+
+    if (searchBtn) searchBtn.addEventListener('click', () => {
+      const query = q?.value?.trim() || '';
+      const type = (document.getElementById('typeFilter')?.value) || '';
+      const params = {};
+      if (query) params.q = query;
+      if (type) params.type = type;
+      doSearch(params);
+    });
+
+    document.querySelectorAll('.type-chip').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.type-chip').forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        const type = e.currentTarget.getAttribute('data-type') || '';
+        const query = q?.value?.trim() || '';
+        const params = {};
+        if (query) params.q = query;
+        if (type) params.type = type;
+        doSearch(params);
+      });
+    });
+  </script>
 </body>
 
 </html>
