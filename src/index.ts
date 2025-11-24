@@ -49,7 +49,13 @@ app.get('/', async (req, res) => {
       message: null,
       items,
       q: req.query.q ?? '',
+<<<<<<< HEAD
       type: req.query.type ?? ''
+=======
+      type: req.query.type ?? '',
+      user: null
+
+>>>>>>> 8f144eb (Atualização do projeto (user/admin e controller))
     });
   } catch (err) {
     console.error(err);
