@@ -1,4 +1,3 @@
-
 CREATE TABLE usuario (
     id_usuario SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
@@ -13,14 +12,13 @@ CREATE TABLE categoria (
     descricao VARCHAR(150)
 );
 
-CREATE TABLE livro (
-    id_livro SERIAL PRIMARY KEY,
-    titulo VARCHAR(150) NOT NULL,
-    autor VARCHAR(100) NOT NULL,
-    editora VARCHAR(100),
-    ano_publicacao INT CHECK (ano_publicacao >= 0),
-    status_leitura VARCHAR(20) DEFAULT 'não_lido' CHECK (status_leitura IN ('não_lido', 'lendo', 'lido')),
-    data_adicao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE contato (
+    id_contato SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    email VARCHAR(100),
+    endereco VARCHAR(150),
+    observacoes TEXT,
     id_usuario INT NOT NULL,
     id_categoria INT,
     FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
