@@ -1,11 +1,533 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel</title>
+    <title>Sistema de Biblioteca Pessoal - Admin</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chamada do Font Awesome para os ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJ8K48B7zh0D3tqXyK6zYw/x2/Lh5K00f8F8pBvG3F6+L1s2/A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Variáveis CSS para fácil mudança de tema */
+        :root {
+            --color-primary: #1e88e5; /* Azul moderno */
+            --color-secondary: #0d47a1; /* Azul escuro */
+            --color-sidebar-bg: #212121; /* Preto escuro/chumbo */
+            --color-text-light: #eceff1;
+            --color-text-dark: #37474f;
+            --color-accent: #ff9800; /* Laranja/Amarelo de destaque (Botão Sair) */
+            --color-success: #4CAF50; /* Verde para sucesso */
+            --color-warning: #FFC107; /* Amarelo para atenção */
+            --color-info: #00BCD4; /* Ciano para informação */
+            --header-height: 70px;
+        }
+
+        /* ------------------------------------------- */
+        /* KEYFRAMES (ANIMAÇÕES) */
+        /* ------------------------------------------- */
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInSidebar {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+
+        /* Reset e Tipografia */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f5f5; /* Fundo mais claro e suave */
+            color: var(--color-text-dark);
+        }
+
+        /* Layout Principal */
+        .main-container {
+            display: flex;
+            padding-top: var(--header-height); 
+            height: 100vh;
+        }
+
+        /* 1. BARRA SUPERIOR (HEADER) - Estilo Mais Elegante */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+            color: white;
+            padding: 0 30px;
+            height: var(--header-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra mais forte */
+            z-index: 1000;
+            box-sizing: border-box;
+            
+            /* Animação */
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .header-title {
+            font-size: 1.6em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .header-user-info {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .header-user-info span {
+            margin-right: 25px;
+            font-weight: 400;
+            color: var(--color-text-light);
+        }
+
+        .logout-btn {
+            background-color: var(--color-accent);
+            color: var(--color-sidebar-bg);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .logout-btn:hover {
+            background-color: #fb8c00;
+            transform: translateY(-2px) scale(1.05); /* Efeito de elevação + escala */
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        /* 2. BARRA LATERAL (SIDEBAR) - Tema Escuro Único */
+        .sidebar {
+            width: 250px;
+            background-color: var(--color-sidebar-bg);
+            color: var(--color-text-light);
+            flex-shrink: 0;
+            padding-top: 15px;
+            overflow-y: auto;
+            transition: width 0.3s;
+            height: 100%;
+            
+            /* Animação */
+            animation: slideInSidebar 0.6s ease-out;
+        }
+        
+        /* Título do Menu */
+        .sidebar-menu-title {
+            text-transform: uppercase;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #757575;
+            padding: 10px 20px 5px;
+            margin-top: 15px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--color-text-light);
+            font-weight: 400;
+            transition: background-color 0.3s ease, border-left-color 0.3s ease, transform 0.1s;
+            border-left: 5px solid transparent;
+            position: relative;
+            overflow: hidden; /* Para o efeito de luz no hover */
+        }
+
+        /* Novo: Estilo para os ícones Font Awesome */
+        .sidebar-menu li a i {
+            margin-right: 15px;
+            width: 20px; /* Alinha o texto */
+            text-align: center;
+            transition: color 0.3s;
+        }
+        
+        /* Efeito de brilho ao passar o mouse */
+        .sidebar-menu li a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            transition: transform 0.5s;
+            transform: skewX(-20deg);
+        }
+
+        .sidebar-menu li a:hover:before {
+            transform: translateX(200%) skewX(-20deg);
+        }
+        
+
+        .sidebar-menu li a:hover {
+            background-color: #333333;
+            border-left-color: var(--color-accent); /* Destaque com cor de acento */
+            transform: scale(1.02); /* Pequeno pop */
+        }
+
+        .sidebar-menu li a.active {
+            background-color: #333333;
+            border-left-color: var(--color-primary);
+            font-weight: 600;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sidebar-menu li a.active i {
+             color: var(--color-primary);
+        }
+
+
+        /* 3. CONTEÚDO PRINCIPAL (DASHBOARD) */
+        .content {
+            flex-grow: 1;
+            padding: 30px;
+            overflow-y: auto;
+            
+            /* Melhoria visual para o conteúdo */
+            background-color: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Sombra suave para flutuar */
+            
+            /* Animação */
+            animation: fadeIn 1s ease-out 0.2s backwards; /* Atraso de 0.2s */
+        }
+
+        .content h1 {
+            color: var(--color-secondary);
+            font-weight: 600;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        /* Dashboard Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        /* Cards de Métricas */
+        .metric-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid var(--color-primary); /* Destaque lateral */
+            animation: popIn 0.5s ease-out; /* Animação de entrada para o card */
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-card .icon-box {
+            font-size: 2.5em;
+            color: var(--color-primary);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 136, 229, 0.1); /* Fundo suave */
+            border-radius: 50%;
+        }
+
+        .metric-card.success .icon-box { color: var(--color-success); background: rgba(76, 175, 80, 0.1); border-left-color: var(--color-success); }
+        .metric-card.warning .icon-box { color: var(--color-warning); background: rgba(255, 193, 7, 0.1); border-left-color: var(--color-warning); }
+        .metric-card.info .icon-box { color: var(--color-info); background: rgba(0, 188, 212, 0.1); border-left-color: var(--color-info); }
+
+        .metric-card .details {
+            text-align: right;
+        }
+        
+        .metric-card .details .number {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--color-text-dark);
+            line-height: 1;
+        }
+
+        .metric-card .details .label {
+            font-size: 0.9em;
+            color: #757575;
+            margin-top: 5px;
+        }
+
+        /* Seção de Ações Rápidas */
+        .quick-actions {
+            margin-bottom: 40px;
+        }
+
+        .quick-actions h2 {
+            font-size: 1.4em;
+            color: var(--color-secondary);
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
+        }
+
+        .action-btn:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(30, 136, 229, 0.4);
+        }
+
+        .action-btn i {
+            margin-right: 10px;
+        }
+
+        /* Placeholder de Gráfico/Relatório */
+        .report-section h2 {
+            font-size: 1.4em;
+            color: var(--color-secondary);
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .chart-placeholder {
+            background-color: #f5f5f5;
+            border: 2px dashed #ddd;
+            height: 300px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+        
+        /* ------------------------------------------- */
+        /* CORREÇÃO DE RESPONSIVIDADE (BOTÃO SAIR) */
+        /* ------------------------------------------- */
+        @media (max-width: 768px) {
+             /* Esconde a sidebar em telas menores e habilita um futuro botão de menu/hamburguer */
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+                padding-top: 0;
+            }
+            .main-container {
+                /* Remove a necessidade de flexbox para o layout principal em mobile */
+                display: block; 
+            }
+            .content {
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+                padding: 15px;
+            }
+            
+            .dashboard-grid {
+                 grid-template-columns: 1fr; /* Coluna única em telas menores */
+            }
+        }
+        
+        @media (max-width: 600px) {
+            
+            :root {
+                --header-height: 60px;
+            }
+            
+            .header {
+                padding: 0 15px;
+                height: var(--header-height);
+            }
+
+            .header-title {
+                font-size: 1.2em;
+            }
+
+            .header-user-info span {
+                /* Oculta o nome do usuário em telas muito pequenas */
+                display: none; 
+                margin-right: 0;
+            }
+
+            .logout-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Seja bem vindo(a) <%=user.name%></h1>
+
+    <header class="header">
+        <div class="header-title">
+            Sistema de Biblioteca Pessoal
+        </div>
+
+        <div class="header-user-info">
+            <span>Olá, <%= user.name %></span>
+            
+            <a href="/usuario/login" class="logout-btn">Sair</a>
+        </div>
+    </header>
+
+    <div class="main-container">
+
+        <nav class="sidebar">
+            <div class="sidebar-menu-title">Navegação Principal</div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-menu-title">Livros</div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#"><i class="fas fa-book-medical"></i> Cadastrar Livro</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-list-ul"></i> Listar Livros</a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-menu-title">Administração</div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#"><i class="fas fa-users"></i> Gerenciar Usuários</a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="content">
+            <h1>Dashboard Administrativo</h1>
+            
+            <!-- Cards de Métricas -->
+            <div class="dashboard-grid">
+                
+                <div class="metric-card">
+                    <div class="icon-box">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">0</div>
+                        <div class="label">Livros na Biblioteca</div>
+                    </div>
+                </div>
+
+                <div class="metric-card success">
+                    <div class="icon-box">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">0</div>
+                        <div class="label">Livros Lidos</div>
+                    </div>
+                </div>
+                
+                <div class="metric-card warning">
+                    <div class="icon-box">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">0</div>
+                        <div class="label">Livros na Lista de Desejos</div>
+                    </div>
+                </div>
+
+                <div class="metric-card info">
+                    <div class="icon-box">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">1</div>
+                        <div class="label">Usuários Ativos (Admin)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ações Rápidas -->
+            <section class="quick-actions">
+                <h2>Ações Rápidas</h2>
+                <div class="action-btn-group">
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-plus-circle"></i> Novo Cadastro de Livro
+                    </a>
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-search"></i> Buscar Livros
+                    </a>
+                    <a href="#" class="action-btn">
+                        <i class="fas fa-user-plus"></i> Convidar Novo Administrador
+                    </a>
+                </div>
+            </section>
+            
+            <!-- Relatórios e Gráficos -->
+            <section class="report-section">
+                <h2>Estatísticas da Biblioteca</h2>
+                <div class="chart-placeholder">
+                    [Placeholder do Gráfico: Crescimento da Biblioteca ao Longo do Tempo]
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
 </body>
 </html>
